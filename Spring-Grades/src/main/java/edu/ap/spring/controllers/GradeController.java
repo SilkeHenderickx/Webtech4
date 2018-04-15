@@ -1,5 +1,6 @@
 package edu.ap.spring.controllers;
 
+import edu.ap.spring.services.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +16,11 @@ import java.util.List;
 @Controller
 public class GradeController {
 
-    GradeRepository repository;
+    GradeService gradeService;
 
     @Autowired
-    public GradeController(GradeRepository repository) {
-        this.repository = repository;
+    public GradeController(GradeService gradeService) {
+        this.gradeService = gradeService;
     }
 
     @RequestMapping("/")
@@ -30,7 +31,7 @@ public class GradeController {
     @RequestMapping("/list")
     public String list(Model model){
 
-        model.addAttribute("grades", repository.findAll());
+        model.addAttribute("grades", gradeService.findAll());
 
         return "list";
     }
@@ -44,7 +45,7 @@ public class GradeController {
         model.addAttribute("firstName", firstName);
         model.addAttribute("lastName", lastName);
         model.addAttribute("grade", grade);
-        repository.save(new Grade(firstName, lastName, grade));
+        gradeService.save(new Grade(firstName, lastName, grade));
 
 
         return "result";
